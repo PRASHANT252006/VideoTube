@@ -15,10 +15,18 @@ app.use(express.static("public"))
 app.use(cookieParser());
 
 // Routes
-import userRouter from './routes/user.routes.js';
+import router from './routes/user.routes.js';
 
 //routes declaration
-app.use("/api/v1/users", userRouter);
+app.use("/api/v1/users", router);
 //http://localhost:5000/api/v1/users/register
+
+import tweetrouter from "./routes/tweet.routes.js";
+
+app.use("/api/v1/tweets", tweetrouter);
+
+
+import commentroute from "./routes/comment.routes.js";
+app.use("/api/v1/comments", commentroute);
 
 export { app }

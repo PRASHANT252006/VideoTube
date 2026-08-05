@@ -1,6 +1,6 @@
 import { asyncHandler } from "../utils/asynchandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiRespone.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
 import { uploadOncloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
@@ -507,7 +507,15 @@ const getWatchHistory = asyncHandler(async (req, res) => {
 
 
 
+
+
+
+
+
+
+
 export {
+    
     registerUser,
     loginUser,
     getUserProfile,
@@ -519,5 +527,5 @@ export {
     updateUserCoverImage,
     getUserChannel,
     getWatchHistory,
-
+   
 };
