@@ -29,4 +29,7 @@ app.use("/api/v1/tweets", tweetrouter);
 import commentroute from "./routes/comment.routes.js";
 app.use("/api/v1/comments", commentroute);
 
+import playlistroute from './routes/playlist.routes.js'
+app.use("/api/v1/playlist",playlistroute);
+
 export { app }
