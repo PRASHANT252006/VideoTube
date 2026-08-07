@@ -32,4 +32,7 @@ app.use("/api/v1/comments", commentroute);
 import playlistroute from './routes/playlist.routes.js'
 app.use("/api/v1/playlist",playlistroute);
 
+import videoRouter from "./routes/video.routes.js";
+app.use("/api/v1/videos", videoRouter);
+
 export { app }
