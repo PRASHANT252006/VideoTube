@@ -35,4 +35,37 @@ app.use("/api/v1/playlist",playlistroute);
 import videoRouter from "./routes/video.routes.js";
 app.use("/api/v1/videos", videoRouter);
 
+import likeRouter from "./routes/like.routes.js";
+
+app.use(
+    "/api/v1/likes",
+    likeRouter
+);
+
+import subscriptionRouter from "./routes/subscrition.routes.js";
+app.use(
+    "/api/v1/subscriptions",
+    subscriptionRouter
+);
+
+import dashboardRouter from "./routes/dash.routes.js";
+app.use(
+    "/api/v1/dashboard",
+    dashboardRouter
+);
+
+
+import searchRouter from "./routes/search.routes.js";
+app.use(
+    "/api/v1/search",
+    searchRouter
+);
+
+
+import notificationRouter from "./routes/notification.routes.js";
+app.use(
+    "/api/v1/notifications",
+    notificationRouter
+);
+
 export { app }
