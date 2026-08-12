@@ -220,4 +220,76 @@ const { page = 1, limit = 10 } = req.query;
     );
 });
 
-export { createcomment, deletecomment, editcomment, getusercomment };
+const getTargetComments = asyncHandler(async (req, res) => {
+
+    const { targetId } = req.params;
+
+    const { page = 1, limit = 10 } = req.query;
+
+
+    if (!mongoose.isValidObjectId(targetId)) {
+        throw new ApiError(400, "Invalid target id");
+    }
+
+
+    const aggregate = Comment.aggregate([
+        {
+            $match:{
+                target:new mongoose.Types.ObjectId(targetId)
+            }
+        },
+
+        {
+            $sort:{
+                createdAt:-1
+            }
+        },
+
+        {
+            $lookup:{
+                from:"users",
+                localField:"owner",
+                foreignField:"_id",
+                as:"owner"
+            }
+        },
+
+        {
+            $unwind:"$owner"
+        },
+
+        {
+            $project:{
+                content:1,
+                createdAt:1,
+                updatedAt:1,
+                "owner.username":1,
+                "owner.fullName":1,
+                "owner.avatar":1
+            }
+        }
+    ]);
+
+
+    const options={
+        page:Number(page),
+        limit:Number(limit)
+    };
+
+
+    const comments = await Comment.aggregatePaginate(
+        aggregate,
+        options
+    );
+
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            comments,
+            "Comments fetched successfully"
+        )
+    );
+});
+
+export { createcomment, deletecomment, editcomment, getusercomment, getTargetComments };
