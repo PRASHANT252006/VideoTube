@@ -47,13 +47,10 @@ const getUserTweet = asyncHandler(async (req, res) => {
     // 4. Sort by newest first
     // 5. Return tweets
 
-    const { userId } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        throw new ApiError(400, "Invalid user id");
-    }
+  const userId = req.user._id;   // from auth middleware, no params needed
 
     const { page = 1, limit = 10 } = req.query;
+  
 
     const isUserExist = await User.findById(userId);
 
@@ -88,13 +85,13 @@ const getUserTweet = asyncHandler(async (req, res) => {
 });
 
 const deleteTweet = asyncHandler(async (req, res) => {
-    const { tweet_id } = req.params;
+    const { tweetId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(tweet_id)) {
+    if (!mongoose.Types.ObjectId.isValid(tweetId)) {
         throw new ApiError(400, "Invalid tweet id");
     }
 
-    const tweet = await Tweet.findById(tweet_id);
+    const tweet = await Tweet.findById(tweetId);
 
     if (!tweet) {
         throw new ApiError(404, "Tweet not found");
@@ -104,7 +101,7 @@ const deleteTweet = asyncHandler(async (req, res) => {
         throw new ApiError(403, "Unauthorized");
     }
 
-    await Tweet.findByIdAndDelete(tweet_id);
+    await Tweet.findByIdAndDelete(tweetId);
 
     return res.status(200).json(
         new ApiResponse(
@@ -116,10 +113,10 @@ const deleteTweet = asyncHandler(async (req, res) => {
 });
 
 const updateTweet = asyncHandler(async (req, res) => {
-    const { tweet_id } = req.params;
+    const { tweetId } = req.params;
     const { content } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(tweet_id)) {
+    if (!mongoose.Types.ObjectId.isValid(tweetId)) {
         throw new ApiError(400, "Invalid tweet id");
     }
 
@@ -127,7 +124,7 @@ const updateTweet = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Enter what to update");
     }
 
-    const tweet = await Tweet.findById(tweet_id);
+    const tweet = await Tweet.findById(tweetId);
 
     if (!tweet) {
         throw new ApiError(404, "Tweet not found");
