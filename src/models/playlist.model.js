@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2';
 const playlistSchema = new mongoose.Schema(
     {
         name: {
@@ -35,5 +35,5 @@ isPublic: {
 )
 
 playlistSchema.index({ owner: 1 });
-
+playlistSchema.plugin(mongooseAggregatePaginate);
 export const Playlist = mongoose.model('Playlist', playlistSchema);
